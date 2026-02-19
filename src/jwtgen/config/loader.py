@@ -1,12 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Any, Optional
-
-import yaml
-
-from jwtgen.config.models import AppConfig, EnvironmentConfig, ProfileConfig
+from typing import Any, Optional, Dict
+from jwtgen.config.models import AppConfig
 
 
 class ConfigError(Exception):
@@ -68,10 +64,6 @@ class ConfigLoader:
             private_pem=prof_cfg.keys.private_pem,
         )
 
-    # -----------------------------------------
-    # NUEVOS MÉTODOS (BIEN INDENTADOS)
-    # -----------------------------------------
-
     def list_envs(self) -> list[str]:
         cfg = self.load()
         return sorted(cfg.environments.keys())
@@ -96,8 +88,6 @@ class ConfigLoader:
             "default_ttl": resolved.default_ttl,
             "payload_template": resolved.payload_template,
         }
-
-    # -----------------------------------------
 
     @staticmethod
     def _read_yaml(path: str) -> Dict[str, Any]:
