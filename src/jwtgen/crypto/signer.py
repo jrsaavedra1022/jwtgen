@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Any, Dict, Optional
-
 import jwt
 
+from dataclasses import dataclass
+from typing import Any, Dict, Optional
 from jwtgen.crypto.key_material import KeyMaterial
 
 
