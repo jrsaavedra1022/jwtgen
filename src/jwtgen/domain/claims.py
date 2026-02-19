@@ -113,21 +113,18 @@ def parse_claim_kv(kv: str) -> Tuple[str, Any]:
     if not key:
         raise ClaimError(f"Claim inválido '{kv}': key vacío")
 
-    # bool
     low = raw.lower()
     if low == "true":
         return key, True
     if low == "false":
         return key, False
 
-    # int
     if re.fullmatch(r"-?\d+", raw):
         try:
             return key, int(raw)
         except Exception:
             pass
 
-    # JSON
     if raw.startswith("{") or raw.startswith("["):
         try:
             return key, json.loads(raw)

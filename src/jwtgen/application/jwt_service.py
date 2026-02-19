@@ -23,7 +23,6 @@ class JwtService:
         self._templates = PayloadTemplateRepository()
 
     def sign_rs256(self, req: SignJwtRequest) -> SignResult:
-        # 1) Resolver env/profile (defaults + llaves + template por profile)
         try:
             resolved = ConfigLoader(req.config_path).resolve(env=req.env, profile=req.profile)
         except ConfigError as e:
@@ -33,7 +32,6 @@ class JwtService:
         final_aud = req.aud or resolved.audience_default
         final_ttl = req.ttl or resolved.default_ttl
 
-        # 2) Claims estándar (iss/sub/aud/iat/exp)
         try:
             standard_claims = build_standard_claims(
                 StandardClaimsInput(
@@ -47,14 +45,12 @@ class JwtService:
         except ClaimError as e:
             raise JwtServiceError(str(e)) from e
 
-        # 3) Cargar template (override --payload > template del profile > "generic")
         template_name = req.payload_template or resolved.payload_template or "generic"
         try:
             template = self._templates.load(template_name)
         except TemplateError as e:
             raise JwtServiceError(str(e)) from e
 
-        # 4) Render final: template + standard_claims + extra_claims
         try:
             payload = render_payload_from_template(
                 template=template,
@@ -64,7 +60,6 @@ class JwtService:
         except ClaimError as e:
             raise JwtServiceError(str(e)) from e
 
-        # 5) Cargar llaves
         try:
             keys = load_key_material_from_inline(
                 public_cer_inline=resolved.public_cer,
@@ -73,7 +68,6 @@ class JwtService:
         except KeyMaterialError as e:
             raise JwtServiceError(str(e)) from e
 
-        # 6) Firmar RS256
         try:
             return self._signer.sign(payload=payload, keys=keys, kid=None)
         except JwtSignError as e:

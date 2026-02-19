@@ -158,7 +158,6 @@ def sign(
         typer.echo(f"config={config}")
         typer.echo(f"env={env} profile={profile}")
 
-    # 1) payload primero, 2) token al final (como pediste)
     if print_header:
         typer.echo("Header:")
         typer.echo(json.dumps(result.header, indent=2, ensure_ascii=False))
