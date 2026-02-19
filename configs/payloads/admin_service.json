@@ -1,0 +1,9 @@
+{
+    "iss": "",
+    "sub": "",
+    "aud": "",
+    "iat": 0,
+    "exp": 0,
+    "channel": "admin",
+    "scope": "auth"
+  }

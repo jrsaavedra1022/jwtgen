@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.dist/
+build/
+dist/
+
+# Virtual env
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets (NO subir)
+secrets/
+*.secrets.*
+
+# Llaves (NO subir)
+keys/

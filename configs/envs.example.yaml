@@ -1,0 +1,35 @@
+environments:
+  qa:
+    issuer_default: "JRSC0001"
+    profiles:
+      admin-service:
+        audience_default: "example-cypher-api.com"
+        alg: "RS256"
+        payload_template: "admin_service"
+        keys:
+          public_cer: "-----BEGIN CERTIFICATE-----REPLACE_ME-----END CERTIFICATE-----"
+          private_pem: "-----BEGIN PRIVATE KEY-----REPLACE_ME-----END PRIVATE KEY-----"
+        defaults:
+          ttl: "1h"
+      payments-service:
+        audience_default: "example-payments-api.com"
+        alg: "RS256"
+        payload_template: "generic"
+        keys:
+          public_cer: "-----BEGIN CERTIFICATE-----REPLACE_ME-----END CERTIFICATE-----"
+          private_pem: "-----BEGIN PRIVATE KEY-----REPLACE_ME-----END PRIVATE KEY-----"
+        defaults:
+          ttl: "1h"
+
+  pdn:
+    issuer_default: "JRSC0001"
+    profiles:
+      admin-service:
+        audience_default: "example-cypher-pdn-api.com"
+        alg: "RS256"
+        payload_template: "generic"
+        keys:
+          public_cer: "-----BEGIN CERTIFICATE-----REPLACE_ME-----END CERTIFICATE-----"
+          private_pem: "-----BEGIN PRIVATE KEY-----REPLACE_ME-----END PRIVATE KEY-----"
+        defaults:
+          ttl: "1h"
