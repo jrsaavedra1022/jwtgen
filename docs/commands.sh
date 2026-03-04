@@ -53,3 +53,11 @@ jwtgen sign -c $CONFIG -e $ENV -p $PROFILE \
   --sub test \
   --claim meta='{"app":"admin","env":"qa"}' \
   --print-payload
+
+echo ""
+echo "10) Generar UUID v4"
+jwtgen uuid
+
+echo ""
+echo "11) Generar múltiples UUID v4"
+jwtgen uuid -n 3 --upper --no-hyphen
