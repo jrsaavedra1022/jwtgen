@@ -16,7 +16,7 @@ class ProfileDefaults(BaseModel):
 class ProfileConfig(BaseModel):
     audience_default: str = Field(..., min_length=3)
     alg: str = Field(default="RS256")
-    payload_template: str = Field(default="generic")
+    payload_template: str = Field(default="generic", description="Nombre del template en configs/payloads/<name>.json")
     keys: KeyConfig
     defaults: ProfileDefaults = Field(default_factory=ProfileDefaults)
 
@@ -28,11 +28,3 @@ class EnvironmentConfig(BaseModel):
 
 class AppConfig(BaseModel):
     environments: Dict[str, EnvironmentConfig]
-
-
-class ProfileConfig(BaseModel):
-    audience_default: str = Field(..., min_length=3)
-    alg: str = Field(default="RS256")
-    payload_template: str = Field(default="generic", description="Nombre del template en configs/payloads/<name>.json")
-    keys: KeyConfig
-    defaults: ProfileDefaults = Field(default_factory=ProfileDefaults)

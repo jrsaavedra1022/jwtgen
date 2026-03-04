@@ -1,8 +1,14 @@
 import typer
 import json
 from typing import List, Optional
+from importlib.metadata import version as pkg_version, PackageNotFoundError
 
 from jwtgen.domain.claims import parse_claims_list, ClaimError
+from jwtgen.domain.identifiers import (
+    generate_uuid_v4_batch,
+    format_uuid,
+    IdentifierError,
+)
 from jwtgen.application.dto import SignJwtRequest
 from jwtgen.application.jwt_service import JwtService, JwtServiceError
 from jwtgen.config.loader import ConfigLoader, ConfigError
@@ -17,7 +23,44 @@ def version() -> None:
     """
     Muestra la versión del CLI.
     """
-    typer.echo("jwtgen 0.1.0")
+    try:
+        current_version = pkg_version("jwtgen")
+    except PackageNotFoundError:
+        current_version = "desconocida"
+
+    typer.echo(f"jwtgen {current_version}")
+
+
+@app.command("uuid")
+def uuid_v4(
+    count: int = typer.Option(
+        1,
+        "--count",
+        "-n",
+        min=1,
+        help="Cantidad de UUID v4 a generar.",
+    ),
+    upper: bool = typer.Option(
+        False,
+        "--upper",
+        help="Convierte la salida a mayúsculas.",
+    ),
+    no_hyphen: bool = typer.Option(
+        False,
+        "--no-hyphen",
+        help="Elimina guiones del UUID de salida.",
+    ),
+) -> None:
+    """
+    Genera uno o más UUID versión 4.
+    """
+    try:
+        generated_values = generate_uuid_v4_batch(count)
+    except IdentifierError as e:
+        raise typer.BadParameter(str(e))
+
+    for generated in generated_values:
+        typer.echo(format_uuid(generated, upper=upper, no_hyphen=no_hyphen))
 
 @app.command("list-envs")
 def list_envs(
