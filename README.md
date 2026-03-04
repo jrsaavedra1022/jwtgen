@@ -23,7 +23,7 @@ Permite generar JWT sin necesidad de tener una aplicación corriendo. Solo requi
 
 ### REQUISITOS
 
-- Python 3.10 o superior
+- Python 3.11 o superior
 - pip
 
 ---
@@ -215,7 +215,7 @@ Ver configuración de un perfil:
 ```bash
 jwtgen show-profile -c secrets/envs.qa.yaml -e qa -p admin-service
 ```
-El listado de comandos lo encuetras en:
+El listado de comandos lo encuentras en:
 ```path
 docs/commands.sh
 ```
@@ -248,3 +248,40 @@ docs/commands.sh
 - Las llaves privadas deben mantenerse seguras.
 - No subir archivos reales con llaves a repositorios públicos.
 - Usar archivos distintos por ambiente si es necesario.
+
+---
+
+### GENERAR UUID V4
+
+Generar un UUID v4:
+
+```bash
+jwtgen uuid
+```
+
+Generar múltiples UUID v4 (uno por línea):
+
+```bash
+jwtgen uuid -n 5
+```
+
+Opciones de formato:
+
+```bash
+# Mayúsculas
+jwtgen uuid --upper
+
+# Sin guiones
+jwtgen uuid --no-hyphen
+
+# Combinado
+jwtgen uuid -n 3 --upper --no-hyphen
+```
+
+Útil para scripting:
+
+```bash
+REQUEST_ID=$(jwtgen uuid --no-hyphen)
+echo "$REQUEST_ID"
+```
+
